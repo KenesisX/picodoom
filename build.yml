@@ -1,0 +1,25 @@
+name: Build PicoDoom UF2
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
+        run: sudo apt-get update && sudo apt-get install -y cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
+      - name: Get Pico SDK and PicoSystem SDK
+        run: |
+          git clone --depth 1 --recurse-submodules --shallow-submodules https://github.com/raspberrypi/pico-sdk.git $HOME/pico-sdk
+          git clone --depth 1 https://github.com/pimoroni/picosystem.git $HOME/picosystem
+          cp $HOME/pico-sdk/external/pico_sdk_import.cmake .
+      - name: Build
+        run: |
+          mkdir build && cd build
+          cmake .. -DPICO_SDK_PATH=$HOME/pico-sdk -DPICOSYSTEM_DIR=$HOME/picosystem
+          make -j4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: picodoom-uf2
+          path: build/picodoom.uf2
