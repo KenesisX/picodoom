@@ -10,7 +10,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 <img src="path/to/image.jpg" alt="Description" width="500" height="300"> or <img src="path/to/image.jpg" alt="Description" style="width:500px;height:300px;"
 
-<img src="docs/banner.png" alt="PicoDoom screenshots" width="720">
+<img src="https://github.com/KenesisX/picodoom/blob/main/banner.png" alt="PicoDoom screenshots" width="720">
 
 *Textured raycasting engine, keycard doors, three weapons, five levels and a boss, running on a 133 MHz handheld with 264 KB of RAM.*
 
