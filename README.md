@@ -8,7 +8,6 @@
 ![Language](https://img.shields.io/badge/language-C%2B%2B17-blue)
 ![Levels](https://img.shields.io/badge/levels-5-orange)
 ![License](https://img.shields.io/badge/license-MIT-green)
-<img src="path/to/image.jpg" alt="Description" width="500" height="300"> or <img src="path/to/image.jpg" alt="Description" style="width:500px;height:300px;"
 
 <img src="https://github.com/KenesisX/picodoom/blob/main/banner.png" alt="PicoDoom screenshots" width="720">
 
