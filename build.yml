@@ -14,12 +14,27 @@ jobs:
           git clone --depth 1 --recurse-submodules --shallow-submodules https://github.com/raspberrypi/pico-sdk.git $HOME/pico-sdk
           git clone --depth 1 https://github.com/pimoroni/picosystem.git $HOME/picosystem
           cp $HOME/pico-sdk/external/pico_sdk_import.cmake .
-      - name: Build
+      - name: Build WITH sound + saves (may fail if the SDK audio API differs)
+        continue-on-error: true
+        run: |
+          mkdir build_sound && cd build_sound
+          cmake .. -DPICO_SDK_PATH=$HOME/pico-sdk -DPICOSYSTEM_DIR=$HOME/picosystem -DPD_SOUND=ON
+          make -j4 && cp picodoom.uf2 ../picodoom-sound.uf2
+      - name: Build safe version (no sound, saves on)
         run: |
           mkdir build && cd build
           cmake .. -DPICO_SDK_PATH=$HOME/pico-sdk -DPICOSYSTEM_DIR=$HOME/picosystem
-          make -j4
+          make -j4 && cp picodoom.uf2 ../picodoom.uf2
+      - name: Build fallback (no sound, no saves) in case flash saving fails to link
+        continue-on-error: true
+        run: |
+          mkdir build_min && cd build_min
+          cmake .. -DPICO_SDK_PATH=$HOME/pico-sdk -DPICOSYSTEM_DIR=$HOME/picosystem -DPD_SAVE=OFF
+          make -j4 && cp picodoom.uf2 ../picodoom-minimal.uf2
       - uses: actions/upload-artifact@v4
         with:
           name: picodoom-uf2
-          path: build/picodoom.uf2
+          path: |
+            picodoom.uf2
+            picodoom-sound.uf2
+            picodoom-minimal.uf2
